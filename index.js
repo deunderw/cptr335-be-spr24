@@ -23,11 +23,6 @@ app.use(session( {
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.post('/login', passport.authenticate('local',  {
-    successRedirect: console.log('Success'),
-    failureRedirect: console.log('Failure')
-}))
-
 app.listen(port, () => {
     console.log('Started server on port', port);
 })
