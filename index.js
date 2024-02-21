@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
 const auth = require('./Authentication/auth-controller');
-
+require("./Authentication/pass-strategy");
 const app = express();
 
 app.use((req, res, next) => {
