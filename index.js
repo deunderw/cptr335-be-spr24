@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
+const auth = require('./Authentication/auth-controller');
 
 const app = express();
 
@@ -18,10 +19,11 @@ app.use(session( {
     secret: 'secret',
     resave: false,
     saveUninitialized: true,
-}))
+}));
 
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(auth)
 
 app.listen(port, () => {
     console.log('Started server on port', port);
