@@ -48,7 +48,7 @@ const authenticateUser = async (username, password) => {
                  clientId = '1'
              };    
        } else {
-           return {};
+           return null;
        }
 }
 module.exports = {

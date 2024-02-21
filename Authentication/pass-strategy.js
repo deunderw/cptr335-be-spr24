@@ -15,7 +15,7 @@ authUser = (username, password, done) => {
 // (and Users/users-repo created also)  Possible routines defined later
 const passport = require("passport");
 const Strategy = require("passport-local").Strategy;
-const authService = require("auth-service");
+const authService = require("./auth-service");
 const userService = require("../Users/users-service");
 passport.use(
   "local",
