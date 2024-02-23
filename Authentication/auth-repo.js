@@ -1,9 +1,7 @@
 const nano = require('nano')('http://${process.env.DBUSER}:${process.env.DBPASS}@localhost:5984');
 const db = nano.db.use('stocks');
 
-console.log('auth-repo file'); // debug
 const authenticateUser = async (username, password) => {
-    console.log('authenticateUser in auth-repo'); //debug
 //    const doc = await db.find({
 //        "selector":{
 //            "username":{
