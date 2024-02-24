@@ -2,6 +2,7 @@ const passport = require("passport");
 const Strategy = require("passport-local").Strategy;
 const authService = require("./auth-service");
 const userService = require("../Users/users-service");
+
 passport.use(
   "local",
   new Strategy(
@@ -12,7 +13,7 @@ passport.use(
     (username, password, cb) => {
       return authService.authenticateUser(username, password)
         .then(user => {
-          if (!user) {
+            if (!user) {
             return cb(null, false);
           }
           return cb(null, user);

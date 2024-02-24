@@ -12,18 +12,18 @@ const authenticateUser = async (username, password) => {
 //        }
 //    });
 //    return doc.docs[0];
-      if (password == 'P@ssw0rd') {
-         return 
-             {
-                 firstName = 'John',
-                 lastName = 'Doe',
-                 email = 'john@example.com',
-                 clientId = '1'
-             };    
-       } else {
-           return null;
-       }
+    if (password == 'P@ssw0rd') {
+        return {
+            firstName: 'John',
+            lastName: 'Doe',
+            email: 'john@example.com',
+            clientId: '1'
+        };    
+    } else {
+        return null;
+    }
 }
+
 module.exports = {
     authenticateUser,
 }
