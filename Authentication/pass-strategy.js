@@ -1,22 +1,8 @@
-/* const localStrategy = require('passport-local').Strategy;
-
-passport.use(new localStrategy (authUser))
-
-authUser = (username, password, done) => {
-    let authenticatedUser = {username: 'Mickey', password: 'Password'}
-
-    return done (null, authenticatedUser)
-} */
-
-// ---------------------------------------------------------------------
-// Authentication/pass-startegy.js
-// should be something like this
-// note that for this to work there needs to be a Users/users-service
-// (and Users/users-repo created also)  Possible routines defined later
 const passport = require("passport");
 const Strategy = require("passport-local").Strategy;
 const authService = require("./auth-service");
 const userService = require("../Users/users-service");
+
 passport.use(
   "local",
   new Strategy(
@@ -27,7 +13,7 @@ passport.use(
     (username, password, cb) => {
       return authService.authenticateUser(username, password)
         .then(user => {
-          if (!user) {
+            if (!user) {
             return cb(null, false);
           }
           return cb(null, user);
