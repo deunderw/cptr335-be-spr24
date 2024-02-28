@@ -1,14 +1,22 @@
-// Users/users-repo
-// Once again this is for testing.  We would need to hook this up to the db
-// later but right now we will just stub it would with static data
-const getById = async (id) => {
-    return {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john@example.com',
-        clientId: '1'
-    };    
+const nano = require('nano')('http://${process.env.DBUSER}:${process.env.DBPASS}@localhost:5984');
+const db = nano.db.use('users');
+const { v4: uuidv4 } = require('uuid');
+
+async function createUser(username, password, email) {
+    const userId = uuidv4();
+    
+    const newUser = {
+        _id: userId,
+        firstname,
+        lastname,
+        email,
+        password,
+        balance: 1000000,
+    };
+
+    const response = await db.insert(newUser);
+
+    return { id: userId, ...newUser };
 }
-module.exports = {
-   getById,
-}
+
+module.exports = { createUser };
