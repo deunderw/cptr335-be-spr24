@@ -1,4 +1,4 @@
-const nano = require('nano')(`http://${process.env.DBUSER}:${process.env.DBPASS}@localhost:5984`);
+const nano = require('nano')(`${process.env.DBURL}`);
 const db = nano.db.use(`${process.env.DBNAME}`);
 const bcrypt = require('bcrypt');
 
