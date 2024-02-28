@@ -4,6 +4,7 @@ const passport = require('passport');
 const session = require('express-session');
 const auth = require('./Authentication/auth-controller');
 require("./Authentication/pass-strategy");
+const comm = require('./Communication/comm-controller');
 const app = express();
 
 app.use((req, res, next) => {
@@ -33,6 +34,8 @@ app.use(session( {
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(auth)
+
+app.use(comm)
 
 app.listen(port, () => {
     console.log('Started server on port', port);
