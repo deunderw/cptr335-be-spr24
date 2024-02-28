@@ -1,9 +1,13 @@
-// Users/users-service
-// This is what you currently have so no changes needed
+const userRepository = require('./user-repository');
 const repo = require('./users-repo.js');
+
+async function createUser(username, password, email) {
+
+    return await userRepository.createUser(username, password, email);
+}
+
 const getById = async (id) => {
     return await repo.getById(id);
 }
-module.exports = {
-    getById,
-}
+
+module.exports = { createUser, getById };
