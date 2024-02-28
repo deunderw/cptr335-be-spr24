@@ -19,4 +19,13 @@ async function createUser(username, password, email) {
     return { id: userId, ...newUser };
 }
 
-module.exports = { createUser };
+const getById = async (id) => {
+    return {
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john@example.com',
+        clientId: '1'
+    };    
+}
+
+module.exports = { createUser, getById };
