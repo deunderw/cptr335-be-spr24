@@ -4,7 +4,7 @@ const mailjetApiKeyPrivate = process.env.MJ_APIKEY_PRIVATE;
 const mailjetClient = mailjet.apiConnect(mailjetApiKeyPublic, mailjetApiKeyPrivate);
 
 const sendEmail = async (username) => {
-    const request = mailjetClient.post('send', { version: 'v3.3.2' })
+    const request = mailjetClient.post('send', { version: 'v3.1' })
         .request({
             Messages: [
                 {
