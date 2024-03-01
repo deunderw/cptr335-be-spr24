@@ -1,8 +1,7 @@
 const nano = require('nano')(`${process.env.DBURL}`);
 const db = nano.db.use(`${process.env.DBNAME}`);
-const bcrypt = require('bcrypt');
 
-const authenticateUser = async (username, password) => {
+const authenticateUser = async (username) => {
     try {
         // Query the database for the user with the provided username and password
         const result = await db.find({
@@ -16,21 +15,14 @@ const authenticateUser = async (username, password) => {
         if (result.docs.length > 0) {
             const user = result.docs[0];
 
-            // Compare the provided password with the hashed password stored in the database
-            const passwordMatch = await bcrypt.compare(password, user.password);
-            if (passwordMatch) {
-                // Return the user data
-                return {
-                    firstName: user.firstName,
-                    lastName: user.lastName,
-                    email: user.email,
-                    clientId: user.clientId
-                    // Include other fields as needed
-                };
-            } else {
-                // Password doesn't match
-                return null;
-            }
+            return {
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                password: user.password,
+                clientID: user.clientID
+                // Include other fields as needed
+            };
         } else {
             // No user found
             return null;
