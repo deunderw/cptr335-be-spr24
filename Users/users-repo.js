@@ -1,20 +1,21 @@
-const nano = require('nano')('http://${process.env.DBUSER}:${process.env.DBPASS}@localhost:5984');
-const db = nano.db.use('users');
+const nano = require('nano')(process.env.DBURL);
+const db = nano.db.use(process.env.DBNAME);
 const { v4: uuidv4 } = require('uuid');
 
-async function createUser(username, password, email) {
+async function createUser(firstName, lastName, email, password) {
     const userId = uuidv4();
     
     const newUser = {
         _id: userId,
-        firstname,
-        lastname,
+        firstName,
+        lastName,
         email,
         password,
         balance: 1000000,
     };
 
     const response = await db.insert(newUser);
+    console.log('response', response);
 
     return { id: userId, ...newUser };
 }

@@ -6,6 +6,7 @@ const auth = require('./Authentication/auth-controller');
 require("./Authentication/pass-strategy");
 const comm = require('./Communication/comm-controller');
 const app = express();
+const user = require('./Users/users-controller');
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -36,6 +37,8 @@ app.use(passport.session())
 app.use(auth)
 
 app.use(comm)
+
+app.use(user)
 
 app.listen(port, () => {
     console.log('Started server on port', port);
