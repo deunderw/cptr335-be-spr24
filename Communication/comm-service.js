@@ -9,7 +9,7 @@ const sendEmail = async (username) => {
             Messages: [
                 {
                     From: { 
-                        Email: 'noreply@cs.ucollege.com',
+                        Email: 'noreply@cs.ucollege.edu',
                         Name: 'cptr335 class'
                     },
                     To: [
