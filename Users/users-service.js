@@ -1,8 +1,8 @@
 const repo = require('./users-repo.js');
 
-async function createUser(username, password, email) {
+async function createUser(firstName, lastName, email, password) {
 
-    return await repo.createUser(username, password, email);
+    return await repo.createUser(firstName, lastName, email, password);
 }
 
 const getById = async (id) => {

@@ -1,21 +1,24 @@
 const express = require('express');
-const userService = require('./user-service');
+const userService = require('./users-service');
 
 const app = express();
 
 app.use(express.json());
 
-app.post('/be/user',
+app.post('/be/createUser',
     async (req, res) => {
         try {
-            const { username, password, email } = req.body;
+            console.log(req.body);
+            const { firstName, lastName, email, password } = req.body;
 
-            const newUser = await userService.createUser(username, password, email);
+            const newUser = await userService.createUser(firstName, lastName, email, password);
+
+            console.log('New User', newUser);
 
             res.status(201).json(newUser);
         } catch (error) {
-            console.error('Error creating user:', error);
-            res.status(500).json({ error: 'Internal server error' });
+            console.log('Error creating user:', error);
+            res.status(401).json({ error: error });
         }
     }
 );
