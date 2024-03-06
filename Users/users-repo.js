@@ -1,16 +1,18 @@
 const nano = require('nano')(process.env.DBURL);
 const db = nano.db.use(process.env.DBNAME);
+const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 
 async function createUser(firstName, lastName, email, password) {
     const userId = uuidv4();
+    const hashedPassword = await bcrypt.hash(password, 10);
     
     const newUser = {
         _id: userId,
         firstName,
         lastName,
         email,
-        password,
+        password: hashedPassword,
         balance: 1000000,
     };
 

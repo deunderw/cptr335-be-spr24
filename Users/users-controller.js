@@ -8,7 +8,6 @@ app.use(express.json());
 app.post('/be/createUser',
     async (req, res) => {
         try {
-            console.log(req.body);
             const { firstName, lastName, email, password } = req.body;
 
             const newUser = await userService.createUser(firstName, lastName, email, password);
