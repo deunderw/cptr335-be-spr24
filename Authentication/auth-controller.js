@@ -3,6 +3,7 @@ const passport = require("passport");
 const app = (module.exports = express());
 
 app.post("/be/authenticate", (req, res, next) => {
+  console.log('<<<<< req.body = ', req.body);
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       return next(err);

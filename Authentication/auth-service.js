@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 
 const authenticateUser = async (username, password) => {
     const userData =  await repo.authenticateUser(username);
+    console.log('<<<<< userData = ', userData);
 
     if(userData != null) {
         // Compare the provided password with the hashed password stored in the database
