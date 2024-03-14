@@ -3,7 +3,25 @@ const db = nano.db.use(process.env.DBNAME);
 const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 
+async function isEmailInUse(email) {
+    const result = await db.find({
+        selector: {
+            email: {
+                "$eq": email
+            }
+        }
+    });
+
+    return result.docs.length > 0;
+}
+
 async function createUser(firstName, lastName, email, password) {
+    const emailInUse = await isEmailInUse(email);
+
+    if (emailInUse) {
+        throw new Error('Email is already in use');
+    }
+
     const userId = uuidv4();
     const hashedPassword = await bcrypt.hash(password, 10);
     
@@ -31,4 +49,4 @@ const getById = async (id) => {
     };    
 }
 
-module.exports = { createUser, getById };
+module.exports = { isEmailInUse, createUser, getById };
