@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
+const expression = require('couchdb-expression')(session);
 const auth = require('./Authentication/auth-controller');
 require("./Authentication/pass-strategy");
 const comm = require('./Communication/comm-controller');
@@ -26,9 +27,22 @@ app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
 const port = process.env.PORT || 3001;
 
+const sessionStore = new expression({
+  username: process.env.SUSERNAME,
+  password: process.env.SPASSWORD,
+  hostname: process.env.SHOSTNAME,
+  port:     process.env.SPORT,
+  database: process.env.SDBNAME,
+  https:    false //.env variable didn't seem to work
+});
+
 app.use(session( {
+    store: sessionStore,
     secret: 'secret',
-    resave: false,
+    cookie: {
+      maxAge: 3000,
+    },
+    resave: true,
     saveUninitialized: true,
 }));
 
