@@ -33,7 +33,7 @@ const sessionStore = new expression({
   hostname: process.env.SHOSTNAME,
   port:     process.env.SPORT,
   database: process.env.SDBNAME,
-  https:    false
+  https:    false //.env variable didn't seem to work
 });
 
 app.use(session( {
