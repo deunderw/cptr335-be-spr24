@@ -13,7 +13,7 @@ const authenticateUser = async (username, password) => {
                 firstName: userData.firstName,
                 lastName: userData.lastName,
                 email: userData.email,
-                clientId: userData.clientId
+                id: userData.id
                 // Include other fields as needed
             };
         } else {
