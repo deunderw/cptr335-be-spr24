@@ -30,11 +30,11 @@ passport.use(
 // serializing, and querying the user record by ID from the database when
 // deserializing.
 passport.serializeUser((user, cb) => {
-    cb(null, { id: user.clientID });
+    cb(null, { id: user.id });
 });
 
 passport.deserializeUser((obj, cb) => {
-      userService.getById(obj.id)
+      userService.getById(obj.clientId)
         .then((user) => {
           cb(null, user);
         })

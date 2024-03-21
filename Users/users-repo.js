@@ -26,7 +26,7 @@ async function createUser(firstName, lastName, email, password) {
     const hashedPassword = await bcrypt.hash(password, 10);
     
     const newUser = {
-        _id: userId,
+        id: userId,
         firstName,
         lastName,
         email,
@@ -41,12 +41,26 @@ async function createUser(firstName, lastName, email, password) {
 }
 
 const getById = async (id) => {
+    const result = await db.find({
+        selector: {
+            id: {
+                "$eq": id
+            }
+        }
+    });
+
+    if (result.docs.length == 0) {
+        return {};
+    }
+    const user = result.docs[0];
     return {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'john@example.com',
-        clientId: '1'
-    };    
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        password: user.password,
+        id: user.id
+        // Include other fields as needed
+    };
 }
 
 module.exports = { isEmailInUse, createUser, getById };

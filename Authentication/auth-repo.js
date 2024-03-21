@@ -20,7 +20,7 @@ const authenticateUser = async (username) => {
                 lastName: user.lastName,
                 email: user.email,
                 password: user.password,
-                clientID: user.clientID
+                id: user.id
                 // Include other fields as needed
             };
         } else {

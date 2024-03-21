@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 const authenticateUser = async (username, password) => {
     const userData =  await repo.authenticateUser(username);
-
+ 
     if(userData != null) {
         // Compare the provided password with the hashed password stored in the database
         const passwordMatch = await bcrypt.compare(password, userData.password);
@@ -13,7 +13,7 @@ const authenticateUser = async (username, password) => {
                 firstName: userData.firstName,
                 lastName: userData.lastName,
                 email: userData.email,
-                clientId: userData.clientId
+                id: userData.id
                 // Include other fields as needed
             };
         } else {
