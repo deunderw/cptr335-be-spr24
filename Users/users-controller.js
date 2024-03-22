@@ -27,4 +27,9 @@ app.post('/be/createUser',
     }
 );
 
+app.post("/be/updateUser", (req, res, next) => {
+    console.log("updateUser backend", req); // debug
+    res.sendStatus(200);
+});
+
 module.exports = app;
