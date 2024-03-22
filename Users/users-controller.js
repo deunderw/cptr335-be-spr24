@@ -16,8 +16,13 @@ app.post('/be/createUser',
 
             res.status(201).json(newUser);
         } catch (error) {
-            console.log('Error creating user:', error);
-            res.status(401).json({ error: error });
+            if (error.message === 'Email is already in use') {
+                res.status(400).json({ error: 'Email is already in use' });
+            
+            } else {
+                console.error('Error creating user:', error);
+                res.status(500).json({ error: 'Internal server error' });
+            }
         }
     }
 );
