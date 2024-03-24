@@ -30,7 +30,7 @@ passport.use(
 // serializing, and querying the user record by ID from the database when
 // deserializing.
 passport.serializeUser((user, cb) => {
-    cb(null, { id: user.id });
+    cb(null, user);
 });
 
 passport.deserializeUser((obj, cb) => {
