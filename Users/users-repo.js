@@ -7,7 +7,7 @@ async function isEmailInUse(email) {
     const result = await db.find({
         selector: {
             email: {
-                "$eq": email
+                "$eq": email.toLowerCase()
             }
         }
     });
