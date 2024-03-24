@@ -7,10 +7,8 @@ const auth = require('./Authentication/auth-controller');
 require("./Authentication/pass-strategy");
 const comm = require('./Communication/comm-controller');
 const user = require('./Users/users-controller');
-// const cookieParser = require('cookie-parser');
 
 const app = express();
-// app.use(cookieParser);
 const sessionStore = new expression({
   username: process.env.SUSERNAME,
   password: process.env.SPASSWORD,
@@ -26,7 +24,7 @@ app.use(session( {
     cookie: {
       expires: null,
       secure: false,
-      httpOnly: false,
+      httpOnly: true,
     },
     resave: false,
     saveUninitialized: false,
@@ -46,7 +44,7 @@ app.use((req, res, next) => {
     );
     res.setHeader(
       "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept",
+      "Origin, X-Requested-With, Content-Type, Accept, X-AUTHENTICATION, X-IP",
     );
     res.setHeader("Access-Control-Allow-Credentials", true);
     next();
