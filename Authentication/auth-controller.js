@@ -14,7 +14,7 @@ app.post("/be/authenticate", (req, res, next) => {
         response: null,
       });
     } else {
-      req.session.clientid = user.id;
+      req.session.user = user;
       res.json({
         status: 200,
       });
