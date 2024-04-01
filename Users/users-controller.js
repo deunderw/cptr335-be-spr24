@@ -27,7 +27,7 @@ app.post('/be/createUser',
     }
 );
 
-app.post("/be/getUserData",
+app.get("/be/getUserData",
     async (req, res, next) => {
    try {
         const userID = req.session.id;
@@ -37,14 +37,11 @@ app.post("/be/getUserData",
             return res.status(401).json({ error: 'Unauthorized' });
         }
 
-        const user = await userService.getById(userID);
-
-        if (!user) {
-            // If the user is not found, return an error
-            return res.status(404).json({ error: 'User not found' });
-        }
-        console.log('<<<<<<<< user =', user);
-        res.json({ status: 200, user });
+        res.send({
+            firstName: req.session.user.firstName,
+            lastName: req.session.user.lastName,
+            email: req.session.user.email
+        })
     } catch (error) {
             // If an error occurs, handle it and send an error response
             console.error('Error fetching user data:', error);
