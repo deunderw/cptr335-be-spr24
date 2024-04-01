@@ -5,7 +5,7 @@ const updateStockPrice = async (symbol) => {
     if (response.values && response.values.length > 0) {
         await repo.setStockPrice()
     } else {
-        return ({ err: 'Update failed' });
+        return ({ err: 'Update failed' }); 
     }
 };
 
