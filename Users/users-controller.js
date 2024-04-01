@@ -27,7 +27,7 @@ app.post('/be/createUser',
     }
 );
 
-app.post("/be/updateUser",
+app.post("/be/getUserData",
     async (req, res, next) => {
    try {
         const userID = req.session.id;
@@ -43,11 +43,11 @@ app.post("/be/updateUser",
             // If the user is not found, return an error
             return res.status(404).json({ error: 'User not found' });
         }
-
-        res.json({ status: 200 });
+        console.log('<<<<<<<< user =', user);
+        res.json({ status: 200, user });
     } catch (error) {
             // If an error occurs, handle it and send an error response
-            console.error('Error updating user:', error);
+            console.error('Error fetching user data:', error);
             res.status(500).json({ error: 'Internal server error' });
         }
 });
