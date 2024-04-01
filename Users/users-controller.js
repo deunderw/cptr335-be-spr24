@@ -27,10 +27,29 @@ app.post('/be/createUser',
     }
 );
 
-app.post("/be/updateUser", (req, res, next) => {
-    res.json({
-        status: 200,
-      });
+app.post("/be/updateUser",
+    async (req, res, next) => {
+   try {
+        const userID = req.session.id;
+
+        if (!userID) {
+            // If the user ID is not found in the session, the user is not logged in
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+
+        const user = await userService.getById(userID);
+
+        if (!user) {
+            // If the user is not found, return an error
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.json({ status: 200 });
+    } catch (error) {
+            // If an error occurs, handle it and send an error response
+            console.error('Error updating user:', error);
+            res.status(500).json({ error: 'Internal server error' });
+        }
 });
 
 module.exports = app;
