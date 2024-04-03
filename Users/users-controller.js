@@ -43,7 +43,6 @@ app.post("/be/getUserData",
             // If the user is not found, return an error
             return res.status(404).json({ error: 'User not found' });
         }
-        console.log('<<<<<<<< user =', user);
         res.json({ status: 200, user });
     } catch (error) {
             // If an error occurs, handle it and send an error response

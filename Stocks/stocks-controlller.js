@@ -10,3 +10,9 @@ app.put('/be/stock/:symbol', async (req, res) => {
         res.sendStatus(200);
     }
 })
+
+app.post('/be/initializeDB', async (req, res) => {
+    const data = req.body;
+    await service.initializeDB(data);
+    res.sendStatus(200);
+})

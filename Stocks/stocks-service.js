@@ -1,14 +1,34 @@
 const repo = require('./stocks-repo')
 
 const updateStockPrice = async (symbol) => {
-    const response = await repo.getStockPrice(symbol);
-    if (response.values && response.values.length > 0) {
-        await repo.setStockPrice()
-    } else {
-        return ({ err: 'Update failed' }); 
-    }
+    return new Promise (async (resolve, revoke) => {
+        const response = await repo.getStockPrice(symbol);
+        const data = JSON.parse(response).values;
+        if (data) {
+            await repo.setStockPrice(symbol, data[0].close, data[0].datetime);
+            console.log('<<<<< updating: ', symbol);
+            resolve({});
+        } else {
+            revoke({ err: 'Update failed for symbol:', symbol }); 
+        }
+    })
 };
+
+const initializeDB = async (data) => {
+    const callInsert = async (row) => {
+        return new Promise (async (resolve) => {
+            await repo.insertIntoDB(row);
+            resolve();
+        })
+    }
+
+    const promises = [];
+    data.map(r => promises.push(callInsert(r)));
+    Promise.all(promises)
+        .then(() => {return});
+}
 
 module.exports = {
     updateStockPrice,
+    initializeDB,
 }
