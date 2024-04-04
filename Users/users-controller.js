@@ -49,4 +49,19 @@ app.get("/be/getUserData",
         }
 });
 
+app.post("/be/updateUser",
+    async (req, res) => {
+        if(req.body.firstName != req.body.formFirstName) {
+            console.log('First names unequal');
+        }
+        if(req.body.lastName != req.body.formLastName) {
+            console.log('Last names unequal');
+        }
+        if(req.body.email != req.body.formEmail) {
+            console.log('Emails unequal');
+        }
+        return res.status(200);
+    }
+);
+
 module.exports = app;
