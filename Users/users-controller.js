@@ -51,16 +51,16 @@ app.get("/be/getUserData",
 
 app.post("/be/updateUser",
     async (req, res) => {
-        if(req.body.firstName != req.body.formFirstName) {
-            console.log('First names unequal');
+        try {
+            const { firstName, lastName, email } = req.body;
+            const userID = req.session.user.id;
+            const updateUser = await userService.updateUser (userID, firstName, lastName, email);
+
+            res.status(200).json(updateUser);
+        } catch (error) {
+            console.log('Error updating user data:', error);
+            res.status(418).json({ error });
         }
-        if(req.body.lastName != req.body.formLastName) {
-            console.log('Last names unequal');
-        }
-        if(req.body.email != req.body.formEmail) {
-            console.log('Emails unequal');
-        }
-        return res.status(200);
     }
 );
 

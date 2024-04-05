@@ -40,6 +40,31 @@ async function createUser(firstName, lastName, email, password) {
     return { id: userId, ...newUser };
 }
 
+async function updateUser(userID, firstName, lastName, email) {
+    try {
+        const existingDoc = await db.find({
+            selector: {
+                id: {
+                    "$eq": userID
+                }
+            }
+        });
+
+        existingDoc.docs[0].firstName = firstName;
+        existingDoc.docs[0].lastName = lastName;
+        existingDoc.docs[0].email = email;
+
+        const response = await db.insert(existingDoc.docs[0], existingDoc.docs[0]._id);
+
+        console.log('Response from db.insert:', response);
+
+        return { response };
+    } catch (error) {
+        console.error('Error updating user:', error);
+        throw error;
+    }
+}
+
 const getById = async (id) => {
     const result = await db.find({
         selector: {
@@ -63,4 +88,4 @@ const getById = async (id) => {
     };
 }
 
-module.exports = { isEmailInUse, createUser, getById };
+module.exports = { isEmailInUse, createUser, updateUser, getById };
