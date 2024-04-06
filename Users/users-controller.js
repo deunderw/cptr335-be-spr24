@@ -52,9 +52,9 @@ app.get("/be/getUserData",
 app.post("/be/updateUser",
     async (req, res) => {
         try {
-            const { firstName, lastName, email } = req.body;
+            const { firstName, lastName, email, formEmail } = req.body;
             const userID = req.session.user.id;
-            const updateUser = await userService.updateUser (userID, firstName, lastName, email);
+            const updateUser = await userService.updateUser (userID, firstName, lastName, email, formEmail);
 
             res.status(200).json(updateUser);
         } catch (error) {
