@@ -22,11 +22,11 @@ async function createUser(firstName, lastName, email, password) {
         throw new Error('Email is already in use');
     }
 
-    const userId = uuidv4();
+    const id = uuidv4();
     const hashedPassword = await bcrypt.hash(password, 10);
     
     const newUser = {
-        id: userId,
+        id,
         firstName,
         lastName,
         email,
@@ -37,7 +37,7 @@ async function createUser(firstName, lastName, email, password) {
     const response = await db.insert(newUser);
     console.log('response', response);
 
-    return { id: userId, ...newUser };
+    return { id, ...newUser };
 }
 
 async function updateUser(userID, firstName, lastName, email) {
