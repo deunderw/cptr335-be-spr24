@@ -55,7 +55,7 @@ app.post("/be/updateUser",
             const { firstName, lastName, email, formEmail } = req.body;
             const userID = req.session.user.id;
             const updateUser = await userService.updateUser (userID, firstName, lastName, email, formEmail);
-
+            req.session.user = updateUser;
             res.status(200).json(updateUser);
         } catch (error) {
             console.log('Error updating user data:', error);
