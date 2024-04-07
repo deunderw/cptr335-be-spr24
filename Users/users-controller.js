@@ -28,19 +28,21 @@ app.post('/be/createUser',
 );
 
 app.get("/be/getUserData",
-    async (req, res, next) => {
+    async (req, res) => {
    try {
-        const userID = req.session.id;
+        const userID = req.session.user.id;
 
         if (!userID) {
             // If the user ID is not found in the session, the user is not logged in
             return res.status(401).json({ error: 'Unauthorized' });
         }
 
+        const user = await userService.getById(userID);
+
         res.send({
-            firstName: req.session.user.firstName,
-            lastName: req.session.user.lastName,
-            email: req.session.user.email
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email
         })
     } catch (error) {
             // If an error occurs, handle it and send an error response
@@ -52,11 +54,16 @@ app.get("/be/getUserData",
 app.post("/be/updateUser",
     async (req, res) => {
         try {
-            const { firstName, lastName, email } = req.body;
+            const { firstName, lastName, email, formEmail } = req.body;
             const userID = req.session.user.id;
-            const updateUser = await userService.updateUser (userID, firstName, lastName, email);
-
-            res.status(200).json(updateUser);
+            const updateUserResponse = await userService.updateUser (userID, firstName, lastName, email, formEmail);
+            const user = await userService.getById(userID);
+            req.session.user = {
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email
+            };
+            res.status(200).json(updateUserResponse);
         } catch (error) {
             console.log('Error updating user data:', error);
             res.status(418).json({ error });

@@ -14,14 +14,17 @@ const getById = async (id) => {
     return await repo.getById(id);
 }
 
-async function updateUser(userID, firstName, lastName, email) {
+async function updateUser(userID, firstName, lastName, email, formEmail) {
     const emailInUse = await repo.isEmailInUse(email);
+    if (email != formEmail && emailInUse) {
+        throw new Error('Email is already in use!');
+    }
 
-    if(emailInUse) {
-        throw new Error('Email is already in use');
-    } else {
-        return await repo.updateUser(userID, firstName, lastName, email);
-    };
-}
+    const updateResult = await repo.updateUser(userID, firstName, lastName, email);
+    if (!updateResult) {
+        throw new Error('Failed to update user!');
+    }
+    return updateResult;
+};
 
 module.exports = { createUser, getById, updateUser };
