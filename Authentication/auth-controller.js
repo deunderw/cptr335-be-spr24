@@ -14,7 +14,11 @@ app.post("/be/authenticate", (req, res, next) => {
         response: null,
       });
     } else {
-      req.session.user = user;
+      req.session.user = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email
+    };
       res.json({
         status: 200,
       });

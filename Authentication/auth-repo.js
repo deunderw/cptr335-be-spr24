@@ -6,7 +6,7 @@ const authenticateUser = async (username) => {
         // Query the database for the user with the provided username and password
         const result = await db.find({
             selector: {
-                "email": { "$eq": username },
+                "email": { "$eq": username.toLowerCase() },
             },
             limit: 1 // Limit to one result (assuming username and password are unique)
         });

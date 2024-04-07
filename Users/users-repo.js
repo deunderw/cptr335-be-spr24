@@ -74,8 +74,8 @@ const getById = async (id) => {
         }
     });
 
-    if (result.docs.length == 0) {
-        return {};
+    if (result.docs.length !== 1) {
+        throw new Error('User not found!');
     }
     const user = result.docs[0];
     return {
