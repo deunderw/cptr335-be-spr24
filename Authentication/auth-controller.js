@@ -15,6 +15,7 @@ app.post("/be/authenticate", (req, res, next) => {
       });
     } else {
       req.session.user = {
+        id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email
