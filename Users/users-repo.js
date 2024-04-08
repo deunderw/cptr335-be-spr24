@@ -56,8 +56,6 @@ async function updateUser(userID, firstName, lastName, email) {
 
         const response = await db.insert(existingDoc.docs[0], existingDoc.docs[0]._id);
 
-        console.log('Response from db.insert:', response);
-
         return { response };
     } catch (error) {
         console.error('Error updating user:', error);

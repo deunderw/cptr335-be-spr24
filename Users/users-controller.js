@@ -40,6 +40,7 @@ app.get("/be/getUserData",
         const user = await userService.getById(userID);
 
         res.send({
+            id: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email
@@ -59,6 +60,7 @@ app.post("/be/updateUser",
             const updateUserResponse = await userService.updateUser (userID, firstName, lastName, email, formEmail);
             const user = await userService.getById(userID);
             req.session.user = {
+                id: user.id,
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: user.email
