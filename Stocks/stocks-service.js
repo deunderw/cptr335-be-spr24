@@ -3,13 +3,16 @@ const repo = require('./stocks-repo');
 const updateStockPrice = async (symbol) => {
   return new Promise(async (resolve, revoke) => {
     const response = await repo.getStockPrice(symbol);
+    const code = JSON.parse(response).code;
+    if (code) {
+      revoke({ err: 'No data for symbol' + symbol});
+    }
     const data = JSON.parse(response).values;
     if (data) {
       await repo.setStockPrice(symbol, data[0].close, data[0].datetime);
-      console.log('<<<<< updating: ', symbol);
       resolve({});
     } else {
-      revoke({ err: 'Update failed for symbol:', symbol });
+      revoke({ err: 'Update failed for symbol:' + symbol });
     }
   });
 };
@@ -29,7 +32,12 @@ const initializeDB = async (data) => {
   });
 };
 
+const getStocks = async () => {
+  return await repo.getStocks();
+}
+
 module.exports = {
   updateStockPrice,
   initializeDB,
+  getStocks,
 };

@@ -133,8 +133,24 @@ const insertIntoDB = async (row) => {
   await db.insert(row);
 };
 
+const getStocks = async () => {
+  let existingDoc = '';
+  try {
+    existingDoc = await db.find({
+      selector: {
+        symbol: {
+          $gt: null,
+        },
+      },
+    });
+  } catch (err) {
+    console.log('getStocks error = ', err);
+  }
+  return existingDoc.docs;
+}
 module.exports = {
   getStockPrice,
   setStockPrice,
   insertIntoDB,
+  getStocks,
 };

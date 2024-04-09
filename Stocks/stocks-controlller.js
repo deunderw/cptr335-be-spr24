@@ -11,6 +11,11 @@ app.put('/be/stock/:symbol', async (req, res) => {
   }
 });
 
+app.get('/be/stocks', async (req, res) => {
+  const results = await service.getStocks();
+  res.send(results);
+});
+
 app.post('/be/initializeDB', async (req, res) => {
   const data = req.body;
   await service.initializeDB(data);
