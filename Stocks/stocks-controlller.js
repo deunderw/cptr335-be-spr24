@@ -16,3 +16,19 @@ app.post('/be/initializeDB', async (req, res) => {
     await service.initializeDB(data);
     res.sendStatus(200);
 })
+
+app.post('/be/stock/sell', async (req, res) => {
+    const symbol = req.body.symbol;
+    const quantity = req.body.quantity;
+    const userId = req.session.id;
+    await service.sellStock(symbol, quantity, userId);
+    res.sendStatus(200);
+})
+
+app.post('be/stock/buy', async (req, res) => {
+    const symbol = req.body.symbol;
+    const quantity = req.body.quantity;
+    const userId = req.session.id;
+    await service.buyStock(symbol, quantity, userId);
+    res.sendStatus(200);
+})
