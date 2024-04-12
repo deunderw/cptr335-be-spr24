@@ -17,6 +17,23 @@ const updateStockPrice = async (symbol) => {
   });
 };
 
+const sellStock = async (symbol, quantity, userid) => {
+    return new Promise (async (resolve, revoke) => {
+        const response = await repo.getQuantityOwned(userid, symbol, quantity);
+        const data = JSON.parse(response).values;
+        if (data < quantity) {
+            await repo.sellStock();
+            resolve({});
+        }
+    })
+};
+
+const buyStock = async (symbol, quantity, userid) => {
+    return new Promise (async (resolve, revoke) => {
+        const response = await repo.getStockPrice(symbol);
+    })
+};
+
 const initializeDB = async (data) => {
   const callInsert = async (row) => {
     return new Promise(async (resolve) => {
