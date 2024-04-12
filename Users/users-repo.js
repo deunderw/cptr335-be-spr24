@@ -85,7 +85,7 @@ const getById = async (id) => {
     email: user.email,
     password: user.password,
     id: user.id,
-    // Include other fields as needed
+    balance: user.balance
   };
 };
 
