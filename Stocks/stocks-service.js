@@ -34,6 +34,10 @@ const buyStock = async (symbol, quantity, userid) => {
     })
 };
 
+const getLocalStockPrice = async (symbol) => {
+  return await repo.getLocalStockPrice(symbol);
+}
+
 const initializeDB = async (data) => {
   const callInsert = async (row) => {
     return new Promise(async (resolve) => {
@@ -57,4 +61,5 @@ module.exports = {
   updateStockPrice,
   initializeDB,
   getStocks,
+  getLocalStockPrice,
 };

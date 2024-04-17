@@ -11,6 +11,11 @@ app.put('/be/stock/:symbol', async (req, res) => {
   }
 });
 
+app.get('/be/stock/price/:symbol', async (req, res) => {
+  const results = await service.getLocalStockPrice(req.params.symbol);
+  res.send(results);
+})
+
 app.get('/be/stocks', async (req, res) => {
   const results = await service.getStocks();
   res.send(results);

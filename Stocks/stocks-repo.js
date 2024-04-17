@@ -68,6 +68,24 @@ const setStockPrice = async (symbol, price, date) => {
   }
 };
 
+const getLocalStockPrice = async (symbol) => {
+  console.log(symbol);
+  let existingDoc = '';
+  try {
+    existingDoc = await db.find({
+      selector: {
+        symbol: {
+          $eq: symbol,
+        },
+      },
+    });
+  } catch (err) {
+    console.log('update error = ', err);
+  }
+  console.log(existingDoc);
+  return existingDoc.docs[0].price;
+}
+
 const _formatDates = () => {
   // Create a new Date object
   currentDate = new Date();
@@ -153,4 +171,5 @@ module.exports = {
   setStockPrice,
   insertIntoDB,
   getStocks,
+  getLocalStockPrice,
 };
