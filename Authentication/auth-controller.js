@@ -30,6 +30,7 @@ app.post('/be/authenticate', (req, res, next) => {
 
 app.post('/be/logout', (req, res, next) => {
   req.logout();
+  console.log('<<<< You made it to the backend logout function!', req);
 
   if (!req.isAuthenticated()) {
     res.json({
