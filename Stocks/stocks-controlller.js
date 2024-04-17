@@ -17,7 +17,7 @@ app.get('/be/stocks', async (req, res) => {
 });
 
 app.post('/be/initializeDB', async (req, res) => {
-  const data = req.body;
-  await service.initializeDB(data);
-  res.sendStatus(200);
-});
+    const data = req.body;
+    await service.initializeDB(data);
+    res.sendStatus(200);
+})
