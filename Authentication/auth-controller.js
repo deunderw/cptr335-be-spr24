@@ -29,18 +29,20 @@ app.post('/be/authenticate', (req, res, next) => {
 });
 
 app.post('/be/logout', (req, res, next) => {
-  req.logout();
-  console.log('<<<< You made it to the backend logout function!', req);
-
-  if (!req.isAuthenticated()) {
-    res.json({
-      status: 200,
-      message: 'Logout successful',
-    });
-  } else {
-    res.json({
-      status: 500,
-      error: 'Logout failed',
-    });
-  }
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    if (!req.isAuthenticated()) {
+      res.json({
+        status: 200,
+        message: 'Logout successful',
+      });
+    } else {
+      res.json({
+        status: 500,
+        error: 'Logout failed',
+      });
+    }
+  });
 });
