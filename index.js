@@ -8,7 +8,7 @@ const auth = require('./Authentication/auth-controller');
 require('./Authentication/pass-strategy');
 const comm = require('./Communication/comm-controller');
 const user = require('./Users/users-controller');
-const stocks = require('./Stocks/stocks-controlller');
+const stocks = require('./Stocks/stocks-controller');
 const cron = require('node-cron');
 const stockService = require('./Stocks/stocks-service');
 
