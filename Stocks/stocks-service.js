@@ -1,4 +1,5 @@
 const repo = require('./stocks-repo');
+const userRepo = require('../Users/users-repo');
 
 const updateStockPrice = async (symbol) => {
   return new Promise(async (resolve, revoke) => {
@@ -30,7 +31,23 @@ const sellStock = async (symbol, quantity, userid) => {
 
 const buyStock = async (symbol, quantity, userid) => {
     return new Promise (async (resolve, revoke) => {
-        const response = await repo.getStockPrice(symbol);
+      const userData = await userRepo.getById(userid);
+      const response = await repo.getLocalStockPrice(symbol);
+      if (response.error) {
+        revoke(response);
+      }
+      const cost = response.price * quantity;
+      userData.balance -= cost;
+      const found = false;
+      userData.portfolio.map(s => {
+        if (s.symbol == symbol) {
+          s.quantity += quantity;
+          found = true;
+        }
+      });
+      if (!found) {
+        userData.portfolio.push({ symbol, quantity });
+      }
     })
 };
 
@@ -62,4 +79,5 @@ module.exports = {
   initializeDB,
   getStocks,
   getLocalStockPrice,
+  buyStock,
 };
