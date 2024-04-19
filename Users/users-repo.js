@@ -32,6 +32,7 @@ async function createUser(firstName, lastName, email, password) {
     email,
     password: hashedPassword,
     balance: 1000000,
+    portfolio: [],
   };
 
   const response = await db.insert(newUser);
@@ -86,7 +87,7 @@ const getById = async (id) => {
     password: user.password,
     id: user.id,
     balance: user.balance,
-    portfolio: user.portfolio
+    portfolio: user.portfolio,
   };
 };
 
@@ -99,14 +100,17 @@ const updatePortfolio = async (id, data) => {
     },
   });
 
-  console.log('<<<<< update = ', data)
+  console.log('<<<<< update = ', data);
 
-  const response = await db.insert(
-    data,
-    result.docs[0]._id
-  );
+  const response = await db.insert(data, result.docs[0]._id);
 
   return { response };
-}
+};
 
-module.exports = { isEmailInUse, createUser, updateUser, getById, updatePortfolio };
+module.exports = {
+  isEmailInUse,
+  createUser,
+  updateUser,
+  getById,
+  updatePortfolio,
+};
