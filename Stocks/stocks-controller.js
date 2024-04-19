@@ -17,10 +17,10 @@ app.get('/be/stock/price/:symbol', async (req, res) => {
   res.send({ "price": results} );
 })
 
-app.post('/be/stock/buy/:symbol/:quantity', async (req, res) => {
-  const clientId = req.session.clientId;
+app.post('/be/stock/buy/:symbol/:quantity', async (req, res) => { 
+  const clientId = req.session.user.id;
   if (clientId) {
-    const results = await service.buyStocks(clientId, req.params.symbol, req.params.quantity);
+    const results = await service.buyStock(req.params.symbol, req.params.quantity, clientId);
     if (results.error) {
       res.send({ error: results.error, messaage: results.message});
     } else {

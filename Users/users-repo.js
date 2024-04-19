@@ -99,6 +99,8 @@ const updatePortfolio = async (id, data) => {
     },
   });
 
+  console.log('<<<<< update = ', data)
+
   const response = await db.insert(
     data,
     result.docs[0]._id

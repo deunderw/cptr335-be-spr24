@@ -39,15 +39,23 @@ const buyStock = async (symbol, quantity, userid) => {
       const cost = response.price * quantity;
       userData.balance -= cost;
       const found = false;
-      userData.portfolio.map(s => {
-        if (s.symbol == symbol) {
-          s.quantity += quantity;
-          found = true;
-        }
-      });
-      if (!found) {
-        userData.portfolio.push({ symbol, quantity });
+      if (userData.portfolio) {
+        userData.portfolio.map(s => {
+          if (s.symbol == symbol) {
+            s.quantity += quantity;
+            found = true;
+          }
+        });
       }
+      if (!found) {
+        if (userData.portfolio) {
+          userData.portfolio.push({ symbol, quantity });
+        } else {
+          userData.portfolio = [{ symbol, quantity }]
+        }
+       }
+      const results = userRepo.updatePortfolio(userid, userData);
+      resolve(results);
     })
 };
 
