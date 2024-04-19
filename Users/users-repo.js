@@ -68,43 +68,50 @@ async function updateUser(userID, firstName, lastName, email) {
 }
 
 const getById = async (id) => {
-  const result = await db.find({
-    selector: {
-      id: {
-        $eq: id,
+  return new Promise(async resolve => {
+    const result = await db.find({
+      selector: {
+        id: {
+          $eq: id,
+        },
       },
-    },
-  });
-
-  if (result.docs.length !== 1) {
-    throw new Error('User not found!');
-  }
-  const user = result.docs[0];
-  return {
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-    password: user.password,
-    id: user.id,
-    balance: user.balance,
-    portfolio: user.portfolio,
-  };
+    });
+  
+    if (result.docs.length !== 1) {
+      throw new Error('User not found!');
+    }
+    const user = result.docs[0];
+    resolve({
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      password: user.password,
+      balance: user.balance,
+      portfolio: user.portfolio,
+    });
+    })
 };
 
 const updatePortfolio = async (id, data) => {
-  const result = await db.find({
-    selector: {
-      id: {
-        $eq: id,
+  return new Promise(async (resolve, revoke) => {
+    let result = await db.find({
+      selector: {
+        id: {
+          $eq: id,
+        },
       },
-    },
-  });
-
-  console.log('<<<<< update = ', data);
-
-  const response = await db.insert(data, result.docs[0]._id);
-
-  return { response };
+    });
+    result.docs[0].balance = data.balance;
+    result.docs[0].portfolio = data.portfolio;
+  
+    try {
+      await db.insert(result.docs[[0]]);
+      resolve({ newBalance: data.balance, newPortfolio: data.portfolio });
+    } catch (err) {
+      revoke({ error: 'Portfolio update failed', errorMessage: err });
+    }
+  })
 };
 
 module.exports = {

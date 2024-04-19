@@ -34,8 +34,8 @@ passport.serializeUser((user, cb) => {
   cb(null, user);
 });
 
-passport.deserializeUser((obj, cb) => {
-  userService
+passport.deserializeUser(async (obj, cb) => {
+  await userService
     .getById(obj.clientId)
     .then((user) => {
       cb(null, user);

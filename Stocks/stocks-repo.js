@@ -69,20 +69,21 @@ const setStockPrice = async (symbol, price, date) => {
 };
 
 const getStock = async (symbol) => {
-  console.log(symbol);
-  let existingDoc = '';
-  try {
-    existingDoc = await db.find({
-      selector: {
-        symbol: {
-          $eq: symbol,
+  return new Promise(async (resolve, revoke) => {
+    let existingDoc = '';
+    try {
+      existingDoc = await db.find({
+        selector: {
+          symbol: {
+            $eq: symbol,
+          },
         },
-      },
-    });
-  } catch (err) {
-    return ({ error: 500, message: 'Error getting stock price' });
-  }
-  return { name: existingDoc.docs[0].name, price: existingDoc.docs[0].price };
+      });
+    } catch (err) {
+      revoke({ error: 500, message: 'Error getting stock information' });
+    }
+    resolve({ name: existingDoc.docs[0].name, price: existingDoc.docs[0].price });
+    })
 }
 
 const _formatDates = () => {
