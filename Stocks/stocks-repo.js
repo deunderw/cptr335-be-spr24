@@ -80,9 +80,8 @@ const getLocalStockPrice = async (symbol) => {
       },
     });
   } catch (err) {
-    console.log('update error = ', err);
+    return ({ error: 500, message: 'Error getting stock price' });
   }
-  console.log(existingDoc);
   return existingDoc.docs[0].price;
 }
 

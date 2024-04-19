@@ -85,8 +85,28 @@ const getById = async (id) => {
     email: user.email,
     password: user.password,
     id: user.id,
-    balance: user.balance
+    balance: user.balance,
+    portfolio: user.portfolio
   };
 };
 
-module.exports = { isEmailInUse, createUser, updateUser, getById };
+const updatePortfolio = async (id, data) => {
+  const result = await db.find({
+    selector: {
+      id: {
+        $eq: id,
+      },
+    },
+  });
+
+  console.log('<<<<< update = ', data)
+
+  const response = await db.insert(
+    data,
+    result.docs[0]._id
+  );
+
+  return { response };
+}
+
+module.exports = { isEmailInUse, createUser, updateUser, getById, updatePortfolio };
