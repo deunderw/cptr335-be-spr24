@@ -32,17 +32,18 @@ const sellStock = async (symbol, quantity, userid) => {
 const buyStock = async (symbol, quantity, userid) => {
     return new Promise (async (resolve, revoke) => {
       const userData = await userRepo.getById(userid);
-      const response = await repo.getLocalStockPrice(symbol);
+      const response = await repo.getStock(symbol);
       if (response.error) {
-        revoke(response);
+        // revoke({ error: 'Failed to get stock', errorMessage: response.error});
+        revoke({ error: 'Failed to get stock', errorMessage: response.error });
       }
       const cost = response.price * quantity;
       userData.balance -= cost;
-      const found = false;
+      let found = false;
       if (userData.portfolio) {
         userData.portfolio.map(s => {
           if (s.symbol == symbol) {
-            s.quantity += quantity;
+            s.quantity = Number(s.quantity) + Number(quantity);
             found = true;
           }
         });
@@ -54,7 +55,7 @@ const buyStock = async (symbol, quantity, userid) => {
           userData.portfolio = [{ symbol, quantity }]
         }
        }
-      const results = userRepo.updatePortfolio(userid, userData);
+      const results = await userRepo.updatePortfolio(userid, userData);
       resolve(results);
     })
 };

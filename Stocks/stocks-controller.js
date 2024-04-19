@@ -13,7 +13,6 @@ app.put('/be/stock/:symbol', async (req, res) => {
 
 app.get('/be/stock/:symbol', async (req, res) => {
   const results = await service.getStock(req.params.symbol);
-  console.log(' show results = ', results);
   res.send(results);
 })
 
@@ -21,11 +20,7 @@ app.post('/be/stock/buy/:symbol/:quantity', async (req, res) => {
   const clientId = req.session.user.id;
   if (clientId) {
     const results = await service.buyStock(req.params.symbol, req.params.quantity, clientId);
-    if (results.error) {
-      res.send({ error: results.error, messaage: results.message});
-    } else {
-      res.send({ newBalance: results.balance, portfolio: results.portfolio });
-    }
+    res.send(results);
   } else {
     res.send({ error: 403, message: 'You must be logged in.' });
   }
