@@ -68,7 +68,7 @@ const setStockPrice = async (symbol, price, date) => {
   }
 };
 
-const getLocalStockPrice = async (symbol) => {
+const getStock = async (symbol) => {
   console.log(symbol);
   let existingDoc = '';
   try {
@@ -82,7 +82,7 @@ const getLocalStockPrice = async (symbol) => {
   } catch (err) {
     return ({ error: 500, message: 'Error getting stock price' });
   }
-  return existingDoc.docs[0].price;
+  return { name: existingDoc.docs[0].name, price: existingDoc.docs[0].price };
 }
 
 const _formatDates = () => {
@@ -170,5 +170,5 @@ module.exports = {
   setStockPrice,
   insertIntoDB,
   getStocks,
-  getLocalStockPrice,
+  getStock,
 };

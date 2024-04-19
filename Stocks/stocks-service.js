@@ -59,8 +59,8 @@ const buyStock = async (symbol, quantity, userid) => {
     })
 };
 
-const getLocalStockPrice = async (symbol) => {
-  return await repo.getLocalStockPrice(symbol);
+const getStock = async (symbol) => {
+  return await repo.getStock(symbol);
 }
 
 const initializeDB = async (data) => {
@@ -86,6 +86,6 @@ module.exports = {
   updateStockPrice,
   initializeDB,
   getStocks,
-  getLocalStockPrice,
+  getStock,
   buyStock,
 };
