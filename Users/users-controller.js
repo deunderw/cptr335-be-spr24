@@ -45,7 +45,8 @@ app.get('/be/getUserData', async (req, res) => {
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
-      balance: user.balance
+      balance: user.balance,
+      portfolio: user.portfolio
     });
   } catch (error) {
     // If an error occurs, handle it and send an error response
