@@ -5,6 +5,7 @@ const app = (module.exports = express());
 
 app.post('/be/authenticate', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
+    console.log('<<<< user =', user);
     if (err) {
       return next(err);
     }
@@ -15,14 +16,16 @@ app.post('/be/authenticate', (req, res, next) => {
         response: null,
       });
     } else {
-      req.session.user = {
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-      };
-      res.json({
-        status: 200,
+      console.log('<<<< Here');
+      req.login(user, (err) => {
+        console.log('<<<< Not getting here... yet');
+        if (err) {
+          return next(err);
+        }
+        res.json({
+          status: 200,
+          message: 'Authentication successful',
+        });
       });
     }
   })(req, res, next);
