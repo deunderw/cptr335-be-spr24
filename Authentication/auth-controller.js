@@ -5,7 +5,6 @@ const app = (module.exports = express());
 
 app.post('/be/authenticate', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
-    console.log('<<<< user =', user);
     if (err) {
       return next(err);
     }
@@ -16,12 +15,21 @@ app.post('/be/authenticate', (req, res, next) => {
         response: null,
       });
     } else {
-      console.log('<<<< Here');
+      console.log('<<<< user =', user);
+      // Wrong way to set session
+      // req.session.user = {
+      //   id: user.id,
+      //   firstName: user.firstName,
+      //   lastName: user.lastName,
+      //   email: user.email,
+      // };
+      // Correct way to set session using req.login but getting error
       req.login(user, (err) => {
         console.log('<<<< Not getting here... yet');
         if (err) {
           return next(err);
         }
+        //////////////////////////////////////////////////////////////////
         res.json({
           status: 200,
           message: 'Authentication successful',
