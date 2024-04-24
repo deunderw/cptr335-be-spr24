@@ -61,7 +61,10 @@ const buyStock = async (symbol, quantity, userid) => {
 };
 
 const getStock = async (symbol) => {
-  return await repo.getStock(symbol);
+  return new Promise(async (resolve) => {
+    const data = await repo.getStock(symbol);
+    resolve(data)
+  })
 }
 
 const initializeDB = async (data) => {

@@ -16,8 +16,6 @@ app.post('/be/createUser', async (req, res) => {
       password
     );
 
-    console.log('New User', newUser);
-
     res.status(201).json(newUser);
   } catch (error) {
     if (error.message === 'Email is already in use') {
