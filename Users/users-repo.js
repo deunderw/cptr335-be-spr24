@@ -36,7 +36,6 @@ async function createUser(firstName, lastName, email, password) {
   };
 
   const response = await db.insert(newUser);
-  console.log('response', response);
 
   return { id, ...newUser };
 }
