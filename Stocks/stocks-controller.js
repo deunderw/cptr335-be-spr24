@@ -1,6 +1,11 @@
 const express = require('express');
 const app = (module.exports = express());
-const service = require('./stocks-service');
+const service = require('./stocks-service'); 
+
+app.get('/be/stock/:symbol', async (req, res) => {
+  const results = await service.getStock(req.params.symbol);
+  res.send(results);
+})
 
 app.put('/be/stock/:symbol', async (req, res) => {
   const results = await service.updateStockPrice(req.params.symbol);
@@ -10,11 +15,6 @@ app.put('/be/stock/:symbol', async (req, res) => {
     res.sendStatus(200);
   }
 });
-
-app.get('/be/stock/:symbol', async (req, res) => {
-  const results = await service.getStock(req.params.symbol);
-  res.send(results);
-})
 
 app.post('/be/stock/buy/:symbol/:quantity', async (req, res) => { 
   const clientId = req.session.user.id;

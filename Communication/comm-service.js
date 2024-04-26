@@ -7,7 +7,7 @@ const mailjetClient = mailjet.apiConnect(
 );
 
 const sendEmail = async (username) => {
-  const request = mailjetClient.post('send', { version: 'v3.1' }).request({
+  const request = await mailjetClient.post('send', { version: 'v3.1' }).request({
     Messages: [
       {
         From: {
@@ -27,8 +27,7 @@ const sendEmail = async (username) => {
       },
     ],
   });
-  const response = await request;
-  console.log(response.body);
+  // const response = await request;
 };
 
 module.exports = {
