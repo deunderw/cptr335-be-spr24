@@ -16,44 +16,33 @@ app.post('/be/authenticate', (req, res, next) => {
       });
     } else {
       console.log('<<<< user =', user);
-      // Wrong way to set session
-      // req.session.user = {
-      //   id: user.id,
-      //   firstName: user.firstName,
-      //   lastName: user.lastName,
-      //   email: user.email,
-      // };
-      // Correct way to set session using req.login but getting error
-      req.login(user, (err) => {
-        console.log('<<<< Not getting here... yet');
-        if (err) {
-          return next(err);
-        }
-        //////////////////////////////////////////////////////////////////
-        res.json({
-          status: 200,
-          message: 'Authentication successful',
-        });
+      req.session.user = {
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      };
+      res.json({
+        status: 200,
+        message: 'Authentication successful',
       });
     }
   })(req, res, next);
 });
 
 app.post('/be/logout', (req, res, next) => {
-  req.logout((err) => {
+  // Clear the session data
+  req.session.destroy((err) => {
     if (err) {
       return next(err);
     }
-    if (!req.isAuthenticated()) {
-      res.json({
-        status: 200,
-        message: 'Logout successful',
-      });
-    } else {
-      res.json({
-        status: 500,
-        error: 'Logout failed',
-      });
-    }
+    // Clear the session cookie by setting its expiration time to a past date
+    res.clearCookie('connect.sid');
+
+    // Logout successful
+    res.json({
+      status: 200,
+      message: 'Logout successful',
+    });
   });
 });
