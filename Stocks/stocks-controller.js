@@ -26,6 +26,17 @@ app.post('/be/stock/buy/:symbol/:quantity', async (req, res) => {
   }
 })
 
+app.post('/be/stock/sell/:symbol', async (req, res) => { 
+  const clientId = req.session.user.id;
+  if (clientId) {
+    const results = await service.sellStock(req.params.symbol, clientId);
+
+    res.send(results);
+  } else {
+    res.send({ error: 403, message: 'You must be logged in.' });
+  }
+})
+
 app.get('/be/stocks', async (req, res) => {
   const results = await service.getStocks();
   res.send(results);
