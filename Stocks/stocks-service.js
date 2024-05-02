@@ -18,15 +18,36 @@ const updateStockPrice = async (symbol) => {
   });
 };
 
-const sellStock = async (symbol, quantity, userid) => {
-    return new Promise (async (resolve, revoke) => {
-        const response = await repo.getQuantityOwned(userid, symbol, quantity);
-        const data = JSON.parse(response).values;
-        if (data < quantity) {
-            await repo.sellStock();
-            resolve({});
+const sellStock = async (symbol, userid) => {
+  return new Promise (async (resolve, revoke) => {
+    const userData = await userRepo.getById(userid);
+    const response = await repo.getStock(symbol);
+    if (response.error) {
+      // revoke({ error: 'Failed to get stock', errorMessage: response.error});
+      revoke({ error: 'Failed to get stock', errorMessage: response.error });
+    }
+    let value = 0;
+    let found = false;
+    let newPortfolio = [];
+    if (userData.portfolio) {
+      userData.portfolio.map(s => {
+        if (s.symbol == symbol) {
+          value = response.price * s.quantity;
+          found = true;
         }
-    })
+      });
+    }
+    if (!found) {
+      revoke({ error: 'No stock to sell', errorMessage: 'No stock to sell' });
+    }
+    newPortfolio = userData.portfolio.filter(s => {
+      return s.symbol != symbol;
+    });
+    userData.balance += value;
+    userData.portfolio = newPortfolio;
+    const results = await userRepo.updatePortfolio(userid, userData);
+    resolve(results);
+  })
 };
 
 const buyStock = async (symbol, quantity, userid) => {
@@ -92,4 +113,5 @@ module.exports = {
   getStocks,
   getStock,
   buyStock,
+  sellStock,
 };
